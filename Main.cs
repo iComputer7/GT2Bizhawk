@@ -7,7 +7,7 @@ namespace GT2Bizhawk {
 	public sealed partial class MainForm : ToolFormBase, IExternalToolForm {
         protected override string WindowTitleStatic => "GT2 Hybrid Tool";
 		[RequiredApi]
-		public ApiContainer PubApis { get; set; }
+		public ApiContainer? PubApis { get; set; }
 		private ApiContainer Api => PubApis!;
 		private bool IsGameLoaded => Api.GameInfo.GetRomName() != "Null";
 		private uint LastGarageCount = 0;

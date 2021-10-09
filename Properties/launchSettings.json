@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "GT2Bizhawk": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\Sean\\Desktop\\BizHawk\\EmuHawk.exe",
+      "workingDirectory": "C:\\Users\\Sean\\Desktop\\BizHawk"
+    }
+  }
+}

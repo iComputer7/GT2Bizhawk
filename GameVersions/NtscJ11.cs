@@ -1,9 +1,6 @@
 ﻿namespace GT2Bizhawk.GameVersions {
-    /// <summary>
-    /// NTSC-U v1.2
-    /// </summary>
-    public class NtscU12 : IBaseGameVersion {
-        public string GameHash => "E3672E95";
+    public class NtscJ11 : IBaseGameVersion {
+        public string GameHash => "B5A363A3";
         public uint GarageCount => 0x1cd554;
         public uint GarageStart => 0x1cd558;
         public uint Money => 0x1d1568;

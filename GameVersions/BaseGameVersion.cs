@@ -1,11 +1,11 @@
 ﻿namespace GT2Bizhawk.GameVersions {
-    public abstract class BaseGameVersion {
-        public static string GameHash { get; } = "00000000";
-        public static uint GarageCount { get; }
-        public static uint GarageStart { get; }
-        public static uint Money { get; }
-        public static uint Days { get; }
-        public static uint CurrentCar { get; }
-        public static uint GarageSize { get; }
+    public interface IBaseGameVersion {
+        public string GameHash { get; }
+        public uint GarageCount { get; }
+        public uint GarageStart { get; }
+        public uint Money { get; }
+        public uint Days { get; }
+        public uint CurrentCar { get; }
+        public uint GarageSize { get; }
     }
 }

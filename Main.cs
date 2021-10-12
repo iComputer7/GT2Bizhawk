@@ -27,12 +27,13 @@ namespace GT2Bizhawk {
 		/// Japanese versions tack on two zeroes at the end to make the money look like yen
 		/// </summary>
 		private bool GameIsJapanese = false;
-		private BaseGameVersion gameVer;
+		private IBaseGameVersion GameVer { get; set; }
 
-		public MainForm() {
-			//winforms stuff
-			InitializeComponent();
+#pragma warning disable CS8618
+        public MainForm() {
+            InitializeComponent();
         }
+#pragma warning restore CS8618
 
 		/// <summary>
 		/// Returns game version from the game's hash
@@ -60,7 +61,7 @@ namespace GT2Bizhawk {
         }
 
 		private void GarageTabUpdate(bool force = false) {
-			uint curGarageCount = Api.Memory.ReadU32(0x1cd554);
+			uint curGarageCount = Api.Memory.ReadU32(GameVer.GarageCount);
 			if (LastGarageCount == curGarageCount && !force)
 				return;
 
@@ -68,7 +69,7 @@ namespace GT2Bizhawk {
 			GarageListView.Items.Clear();
 			//cars are 0xa4 bytes long
 			for (uint i = 0; i < (curGarageCount * 0xa4); i += 0xa4) {
-				uint carStart = 0x1cd558 + i;
+				uint carStart = GameVer.GarageStart + i;
 				uint carCode = Api.Memory.ReadU32(carStart);
 				GarageListView.Items.Add($"{carCode:X8}");
             }
@@ -87,7 +88,20 @@ namespace GT2Bizhawk {
 				GameIsJapanese = false;
 
 			//loading version specific addresses
+			switch (v) {
+				case ("NTSC-U", "1.2"): {
+					GameVer = new NtscU12();
+					break;
+                }
 
+				case ("NTSC-J", "1.1"): {
+					GameVer = new NtscJ11();
+					break;
+                }
+
+				default:
+					throw new NotImplementedException("Unsupported version");
+			}
 		}
 
 		protected override void UpdateAfter() {
@@ -97,17 +111,17 @@ namespace GT2Bizhawk {
 			switch (MainTabControl.SelectedIndex) {
 				//Game tab
 				case 0: {
-					GameListView.Items[0].SubItems[1].Text = $"{Api.Memory.ReadU32(0x1d1568):N0}"; //Money
-					GameListView.Items[1].SubItems[1].Text = $"{Api.Memory.ReadS32(0x1c99d8):N0}"; //Days
+					GameListView.Items[0].SubItems[1].Text = $"{Api.Memory.ReadU32(GameVer.Money):N0}"; //Money
+					GameListView.Items[1].SubItems[1].Text = $"{Api.Memory.ReadS32(GameVer.Days):N0}"; //Days
 
 					//Current Car
-					uint currentCar = Api.Memory.ReadU32(0x1d156c);
+					uint currentCar = Api.Memory.ReadU32(GameVer.CurrentCar);
 					if (currentCar == 0xffff)
 						GameListView.Items[2].SubItems[1].Text = "N/A";
 					else
 						GameListView.Items[2].SubItems[1].Text = $"{currentCar}";
 					
-					GameListView.Items[3].SubItems[1].Text = $"{Api.Memory.ReadU32(0x1cd554):N0}"; //Garage Size
+					GameListView.Items[3].SubItems[1].Text = $"{Api.Memory.ReadU32(GameVer.GarageSize):N0}"; //Garage Size
 
 					break;
 				}
@@ -126,12 +140,12 @@ namespace GT2Bizhawk {
 
         private void MaxMoneyBtn_Click(object sender, System.EventArgs e) {
 			if (IsGameLoaded)
-				Api.Memory.WriteU32(0x1d1568, 99999999);
+				Api.Memory.WriteU32(GameVer.Money, 99999999);
 		}
 
         private void GotoCar1Btn_Click(object sender, System.EventArgs e) {
 			if (IsGameLoaded)
-				Api.Memory.WriteU32(0x1d156c, 0);
+				Api.Memory.WriteU32(GameVer.CurrentCar, 0);
 		}
 
         private void MainTabControl_SelectedIndexChanged(object sender, System.EventArgs e) {

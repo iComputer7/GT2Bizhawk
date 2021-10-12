@@ -4,7 +4,6 @@
     /// </summary>
     public class NtscU12 : IBaseGameVersion {
         public string GameHash => "E3672E95";
-        public uint GarageCount => 0x1cd554;
         public uint GarageStart => 0x1cd558;
         public uint Money => 0x1d1568;
         public uint Days => 0x1c99d8;

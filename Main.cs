@@ -61,7 +61,7 @@ namespace GT2Bizhawk {
         }
 
 		private void GarageTabUpdate(bool force = false) {
-			uint curGarageCount = Api.Memory.ReadU32(GameVer.GarageCount);
+			uint curGarageCount = Api.Memory.ReadU32(GameVer.GarageSize);
 			if (LastGarageCount == curGarageCount && !force)
 				return;
 
@@ -111,7 +111,13 @@ namespace GT2Bizhawk {
 			switch (MainTabControl.SelectedIndex) {
 				//Game tab
 				case 0: {
-					GameListView.Items[0].SubItems[1].Text = $"{Api.Memory.ReadU32(GameVer.Money):N0}"; //Money
+					//Money
+					ulong money = Api.Memory.ReadU32(GameVer.Money);
+					if (GameIsJapanese)
+						money *= 100;
+
+					GameListView.Items[0].SubItems[1].Text = $"{money:N0}";
+
 					GameListView.Items[1].SubItems[1].Text = $"{Api.Memory.ReadS32(GameVer.Days):N0}"; //Days
 
 					//Current Car

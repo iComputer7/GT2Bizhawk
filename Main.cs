@@ -1,9 +1,21 @@
 ﻿using BizHawk.Client.Common;
 using BizHawk.Client.EmuHawk;
-using System.Windows.Forms;
+using System;
+using GT2Bizhawk.GameVersions;
 
 namespace GT2Bizhawk {
 	[ExternalTool("GT2HybridTool", Description = "GT2 Hybrid Tool")]
+	[ExternalToolApplicability.RomWhitelist(CoreSystem.Playstation,
+		//"BizHash" hashes, see https://github.com/TASVideos/BizHawk/blob/master/ExternalToolProjects/DBMan/Data/psx-hash.txt
+		//datahash = CRC-32 of the bin file, bizhash = what the emulator checks
+		//all hashes are disc 2 (gran turismo/simulation mode)
+		"D2C9B4EE", //NTSC-U 1.0
+		"B5A363A3", //NTSC-U 1.1
+		"E3672E95", //NTSC-U 1.2
+		"20FB91D3", //NTSC-J 1.0
+		"7E74A4F0", //NTSC-J 1.1
+		"AFCCF4DC"  //PAL
+		)]
 	public sealed partial class MainForm : ToolFormBase, IExternalToolForm {
         protected override string WindowTitleStatic => "GT2 Hybrid Tool";
 		[RequiredApi]
@@ -11,10 +23,40 @@ namespace GT2Bizhawk {
 		private ApiContainer Api => PubApis!;
 		private bool IsGameLoaded => Api.GameInfo.GetRomName() != "Null";
 		private uint LastGarageCount = 0;
+		/// <summary>
+		/// Japanese versions tack on two zeroes at the end to make the money look like yen
+		/// </summary>
+		private bool GameIsJapanese = false;
+		private BaseGameVersion gameVer;
 
 		public MainForm() {
 			//winforms stuff
 			InitializeComponent();
+        }
+
+		/// <summary>
+		/// Returns game version from the game's hash
+		/// </summary>
+		/// <param name="hash">Game's hash</param>
+		/// <returns>Tuple: (region, version)</returns>
+		private (string, string) VersionFromHash(string hash) {
+			switch (hash) {
+				case "D2C9B4EE": //NTSC-U 1.0
+					return ("NTSC-U", "1.0");
+				case "B5A363A3": //NTSC-U 1.1
+					return ("NTSC-U", "1.1");
+				case "E3672E95": //NTSC-U 1.2
+					return ("NTSC-U", "1.2");
+				case "20FB91D3": //NTSC-J 1.0
+					return ("NTSC-J", "1.0");
+				case "7E74A4F0": //NTSC-J 1.1
+					return ("NTSC-J", "1.1");
+				case "AFCCF4DC": //PAL
+					return ("PAL", "1.0"); //are there multiple PAL versions?
+
+				default:
+					throw new NotImplementedException("Unknown hash.");
+			}
         }
 
 		private void GarageTabUpdate(bool force = false) {
@@ -35,10 +77,17 @@ namespace GT2Bizhawk {
 		}
         
 		public override void Restart() {
-			string? romName = Api.GameInfo.GetRomName();
-			if (romName != "Null") {
-				DetectedGameLbl.Text = "Detected Game: " + romName;
-            }
+			var v = VersionFromHash(Api.GameInfo.GetRomHash());
+			DetectedGameLbl.Text = $"Detected {v.Item1} version {v.Item2}";
+
+			//enabling japanese formatting for money
+			if (v.Item1 == "NTSC-J")
+				GameIsJapanese = true;
+			else
+				GameIsJapanese = false;
+
+			//loading version specific addresses
+
 		}
 
 		protected override void UpdateAfter() {

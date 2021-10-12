@@ -1,5 +1,4 @@
-﻿
-namespace GT2Bizhawk {
+﻿namespace GT2Bizhawk {
     partial class MainForm {
         /// <summary>
         /// Required designer variable.

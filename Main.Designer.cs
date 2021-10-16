@@ -23,16 +23,16 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
             "Money",
             "0"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
             "Days",
             "0"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
             "Current Car Index",
             "0"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
             "Garage Size",
             "0"}, -1);
             this.DetectedGameLbl = new System.Windows.Forms.Label();
@@ -44,7 +44,6 @@
             this.PropNameHead = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.GarageTab = new System.Windows.Forms.TabPage();
-            this.GetInBtn = new System.Windows.Forms.Button();
             this.GarageListView = new System.Windows.Forms.ListView();
             this.MainTabControl.SuspendLayout();
             this.GameTab.SuspendLayout();
@@ -115,10 +114,10 @@
             this.GameListView.Dock = System.Windows.Forms.DockStyle.Top;
             this.GameListView.HideSelection = false;
             this.GameListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3,
-            listViewItem4});
+            listViewItem5,
+            listViewItem6,
+            listViewItem7,
+            listViewItem8});
             this.GameListView.Location = new System.Drawing.Point(3, 3);
             this.GameListView.Name = "GameListView";
             this.GameListView.Size = new System.Drawing.Size(386, 363);
@@ -138,7 +137,6 @@
             // 
             // GarageTab
             // 
-            this.GarageTab.Controls.Add(this.GetInBtn);
             this.GarageTab.Controls.Add(this.GarageListView);
             this.GarageTab.Location = new System.Drawing.Point(4, 22);
             this.GarageTab.Name = "GarageTab";
@@ -147,15 +145,6 @@
             this.GarageTab.TabIndex = 1;
             this.GarageTab.Text = "Garage";
             this.GarageTab.UseVisualStyleBackColor = true;
-            // 
-            // GetInBtn
-            // 
-            this.GetInBtn.Location = new System.Drawing.Point(309, 372);
-            this.GetInBtn.Name = "GetInBtn";
-            this.GetInBtn.Size = new System.Drawing.Size(75, 23);
-            this.GetInBtn.TabIndex = 1;
-            this.GetInBtn.Text = "Get In";
-            this.GetInBtn.UseVisualStyleBackColor = true;
             // 
             // GarageListView
             // 
@@ -194,7 +183,6 @@
         private System.Windows.Forms.TabPage GarageTab;
         private System.Windows.Forms.Button MaxMoneyBtn;
         private System.Windows.Forms.Button GotoCar1Btn;
-        private System.Windows.Forms.Button GetInBtn;
         private System.Windows.Forms.ListView GarageListView;
     }
 }

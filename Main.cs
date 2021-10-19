@@ -167,5 +167,12 @@ namespace GT2Bizhawk {
 					}
 				}
 		}
+
+        private void CarEditBtn_Click(object sender, EventArgs e) {
+			if (!IsGameLoaded)
+				return;
+
+
+        }
     }
 }

@@ -94,6 +94,11 @@ namespace GT2Bizhawk {
 					break;
                 }
 
+				case ("NTSC-J", "1.0"): { 
+					GameVer = new NtscJ10();
+					break;
+				}
+
 				case ("NTSC-J", "1.1"): {
 					GameVer = new NtscJ11();
 					break;

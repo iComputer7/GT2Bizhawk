@@ -16,14 +16,14 @@ namespace GT2Bizhawk {
 
         private void CarEditList_DoubleClick(object sender, MouseEventArgs e) {
             //getting the item that was clicked
-            var curItem = CarEditList.GetItemAt(e.X, e.Y);
-            if (curItem == null)
-                return;
+            //var curItem = CarEditList.GetItemAt(e.X, e.Y);
+            //if (curItem == null)
+            //    return;
 
             //getting the column that was clicked
-            var curSubItem = curItem.GetSubItemAt(e.X, e.Y);
-            if (curItem.SubItems.IndexOf(curSubItem) != 1) 
-                return;
+            //var curSubItem = curItem.GetSubItemAt(e.X, e.Y);
+            //if (curItem.SubItems.IndexOf(curSubItem) != 1) 
+            //    return;
 
             //placing a text box
 

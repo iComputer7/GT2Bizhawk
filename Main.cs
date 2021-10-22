@@ -2,6 +2,7 @@
 using BizHawk.Client.EmuHawk;
 using System;
 using GT2Bizhawk.GameVersions;
+using System.Windows.Forms;
 
 namespace GT2Bizhawk {
 	[ExternalTool("GT2HybridTool", Description = "GT2 Hybrid Tool")]
@@ -104,8 +105,10 @@ namespace GT2Bizhawk {
 					break;
                 }
 
-				default:
+				default: {
+					MessageBox.Show($"This version is unsupported. You tried to load {v.Item1} v{v.Item2}.", "Unsupported Version", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					throw new NotImplementedException("Unsupported version");
+				}
 			}
 		}
 
@@ -176,8 +179,6 @@ namespace GT2Bizhawk {
         private void CarEditBtn_Click(object sender, EventArgs e) {
 			if (!IsGameLoaded)
 				return;
-
-
         }
     }
 }

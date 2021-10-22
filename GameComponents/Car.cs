@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace GT2Bizhawk.GameComponents {
     /// <summary>
@@ -41,7 +42,7 @@ namespace GT2Bizhawk.GameComponents {
         /// Rims code
         /// </summary>
         /// <remarks>Item1 = Code 1 and 2, Item2 = Code 3</remarks>
-        public (uint, ushort) RimsCode { get; set; }
+        public (uint, ushort) RimsCode { get; set; } = (0, 0);
         /// <summary>
         /// Brakes
         /// </summary>
@@ -236,11 +237,11 @@ namespace GT2Bizhawk.GameComponents {
         /// <summary>
         /// Front damper: Item1 = Bound, Item2 = Rebound
         /// </summary>
-        public (ushort, ushort) FrontDamper { get; set; }
+        public (ushort, ushort) FrontDamper { get; set; } = (0, 0);
         /// <summary>
         /// Rear damper: Item1 = Bound, Item2 = Rebound
         /// </summary>
-        public (ushort, ushort) RearDamper { get; set; }
+        public (ushort, ushort) RearDamper { get; set; } = (0, 0);
         /// <summary>
         /// Stabilizer (Suspension)
         /// </summary>
@@ -300,7 +301,7 @@ namespace GT2Bizhawk.GameComponents {
         /// Downforce
         /// </summary>
         /// <remarks>Item1 = Front, Item2 = Rear</remarks>
-        public (byte, byte) Downforce { get; set; }
+        public (byte, byte) Downforce { get; set; } = (0, 0);
         /// <summary>
         /// LSD Yaw
         /// </summary>
@@ -343,8 +344,105 @@ namespace GT2Bizhawk.GameComponents {
         /// Labeled as Fitments 1 thru 4 in hybrid basecodes
         /// </summary>
         /// <remarks>Item# = Fitments #</remarks>
-        public (ushort, ushort, ushort, ushort) Fitments { get; set; }
+        public (ushort, ushort, ushort, ushort) Fitments { get; set; } = (0, 0, 0, 0);
 
         #endregion
+
+        /// <summary>
+        /// Creates an instance of the Car class.
+        /// </summary>
+        /// <param name="_carRaw">Raw memory data of this car</param>
+        public Car(byte[] _carRaw) {
+            if (_carRaw.Length != 0xa4)
+                throw new Exception($"Given raw car value is not the right size. Got 0x{_carRaw.Length:x2} bytes, expected 0xa4 bytes.");
+
+            //converting byte array into memorystream, then into binaryreader
+            BinaryReader rawCar = new(new MemoryStream(_carRaw));
+
+            //reading values out of the stream and into the class
+            CarCode = rawCar.ReadUInt32();
+            ColorCode = rawCar.ReadUInt32();
+            uint _rims1 = rawCar.ReadUInt32();
+            Brakes = rawCar.ReadUInt16();
+            BrakeController = rawCar.ReadUInt16();
+            Unknown1ccfc8 = rawCar.ReadUInt16();
+            BaseWeight = rawCar.ReadUInt16();
+            Engine = rawCar.ReadUInt16();
+            Drivetrain = rawCar.ReadUInt16();
+            Transmission = rawCar.ReadUInt16();
+            Suspension = rawCar.ReadUInt16();
+            Differential = rawCar.ReadUInt16();
+            FrontTires = rawCar.ReadUInt16();
+            RearTires = rawCar.ReadUInt16();
+            WeightReduction = rawCar.ReadUInt16();
+            WeightDistribution = rawCar.ReadUInt16();
+            PortPolish = rawCar.ReadUInt16();
+            EngineBalance = rawCar.ReadUInt16();
+            Displacement = rawCar.ReadUInt16();
+            EngineRomChip = rawCar.ReadUInt16();
+            NATuning = rawCar.ReadUInt16();
+            Turbocharger = rawCar.ReadUInt16();
+            Flywheel = rawCar.ReadUInt16();
+            Clutch = rawCar.ReadUInt16();
+            Driveshaft = rawCar.ReadUInt16();
+            Exhaust = rawCar.ReadUInt16();
+            Intercooler = rawCar.ReadUInt16();
+            Asc = rawCar.ReadUInt16();
+            Tcs = rawCar.ReadUInt16();
+            ushort _rims2 = rawCar.ReadUInt16();
+            PowerMultiplier = rawCar.ReadUInt16();
+            ReverseGear = rawCar.ReadUInt16();
+            FirstGear = rawCar.ReadUInt16();
+            SecondGear = rawCar.ReadUInt16();
+            ThirdGear = rawCar.ReadUInt16();
+            FourthGear = rawCar.ReadUInt16();
+            FifthGear = rawCar.ReadUInt16();
+            SixthGear = rawCar.ReadUInt16();
+            SeventhGear = rawCar.ReadUInt16();
+            FinalDrive = rawCar.ReadUInt16();
+            AutoGearing = rawCar.ReadUInt16();
+            BrakeControlSettings = rawCar.ReadUInt16();
+            byte _downfront = rawCar.ReadByte();
+            byte _downrear = rawCar.ReadByte();
+            TurboBlowoff = rawCar.ReadUInt16();
+            TurboGauge = rawCar.ReadUInt16();
+            Unknown1cd018 = rawCar.ReadUInt16();
+            Camber = rawCar.ReadUInt16();
+            RideHeight = rawCar.ReadUInt16();
+            Toe = rawCar.ReadUInt16();
+            SpringRate = rawCar.ReadUInt16();
+            TractionSuspension = rawCar.ReadUInt16();
+            byte _fbound = rawCar.ReadByte();
+            byte _frebound = rawCar.ReadByte();
+            byte _rbound = rawCar.ReadByte();
+            byte _rrebound = rawCar.ReadByte();
+            Stabilizer = rawCar.ReadUInt16();
+            LsdYaw = rawCar.ReadUInt16();
+            LsdAccel = rawCar.ReadUInt16();
+            LsdDecel = rawCar.ReadUInt16();
+            AscTcsSettings = rawCar.ReadUInt16();
+            Unknown1cd036 = rawCar.ReadUInt16();
+            Unknown1cd03a = rawCar.ReadUInt16();
+            Unknown1cd03c = rawCar.ReadUInt16();
+            Unknown1cd03e = rawCar.ReadUInt16();
+            Unknown1cd040 = rawCar.ReadUInt16();
+            Unknown1cd042 = rawCar.ReadUInt16();
+            BodyCode = rawCar.ReadUInt32();
+            CarPrice = rawCar.ReadUInt32();
+            WeightDrivetrain = rawCar.ReadUInt16();
+            Torque = rawCar.ReadUInt16();
+            HP_R_Auto = rawCar.ReadUInt16();
+            ushort _fit1 = rawCar.ReadUInt16();
+            ushort _fit2 = rawCar.ReadUInt16();
+            ushort _fit3 = rawCar.ReadUInt16();
+            ushort _fit4 = rawCar.ReadUInt16();
+            Cleanliness = rawCar.ReadUInt16();
+
+            Fitments = (_fit1, _fit2, _fit3, _fit4);
+            FrontDamper = (_fbound, _frebound);
+            RearDamper = (_rbound, _rrebound);
+            Downforce = (_downfront, _downrear);
+            RimsCode = (_rims1, _rims2);
+        }
     }
 }

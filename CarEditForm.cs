@@ -7,11 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GT2Bizhawk.GameComponents;
 
 namespace GT2Bizhawk {
     public partial class CarEditForm : Form {
-        public CarEditForm() {
+        private Car EditCar { get; set; }
+
+        public CarEditForm(Car carToEdit) {
             InitializeComponent();
+            EditCar = carToEdit;
         }
 
         private void CarEditList_DoubleClick(object sender, MouseEventArgs e) {
